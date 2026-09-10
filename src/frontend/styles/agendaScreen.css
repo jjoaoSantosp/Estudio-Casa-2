@@ -1,0 +1,415 @@
+:root {
+    --color-accent: #22c55e;
+    --color-accent-hover: #4ade80;
+    --color-text-on-accent: #06210f;
+
+    --bg-page: #0d0f12;
+    --bg-panel: #16191d;
+    --bg-panel-alt: #1d2126;
+    --border-soft: rgba(255, 255, 255, 0.08);
+
+    --text-primary: #f3f4f6;
+    --text-muted: #9aa0a6;
+
+    --danger: #ef4444;
+    --danger-hover: #f87171;
+
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-page);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-primary);
+}
+
+.app-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 32px 60px;
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.app-header__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #22c55e;
+    
+}
+
+.btn {
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 11px 20px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-text-on-accent);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.25);
+}
+
+.btn-plus {
+    font-weight: 800;
+    margin-right: 2px;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-soft);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.btn-danger {
+    background-color: transparent;
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-hover);
+    border-color: var(--danger-hover);
+}
+
+/* ---------- Barra de ferramentas ---------- */
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.toolbar__titulo {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+.toolbar__acoes {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.contador-selecionados {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ---------- Tabela ---------- */
+
+.table-wrapper {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.agenda-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.agenda-table thead th {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    background: var(--bg-panel-alt);
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-soft);
+    white-space: nowrap;
+}
+
+.agenda-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.agenda-table th.sortable:hover {
+    color: var(--color-accent-hover);
+}
+
+.sort-arrow {
+    display: inline-block;
+    width: 10px;
+    font-size: 10px;
+    color: var(--color-accent);
+}
+
+.col-checkbox {
+    width: 44px;
+}
+
+.col-id {
+    width: 160px;
+}
+
+.agenda-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.agenda-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.agenda-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.agenda-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.agenda-table tbody tr.linha-selecionada {
+    background-color: rgba(34, 197, 94, 0.08);
+}
+
+.id-agendamento {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.id-agendamento:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
+input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.estado-vazio {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.estado-vazio__sub {
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+/* ---------- Modal de criação ---------- */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+}
+
+.modal-conteudo {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-conteudo h2 {
+    margin: 0 0 20px;
+    font-size: 28px;
+}
+
+.campo {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo label {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+.campo input {
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.campo input:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+}
+
+.campo input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Aplique essa classe via JS no <input> quando o campo estiver inválido */
+.campo input.campo-invalido {
+    border-color: var(--danger);
+    outline-color: var(--danger);
+}
+
+.mensagem-erro {
+    color: var(--danger-hover);
+    font-size: 14px;
+}
+
+.mensagem-erro--geral {
+    font-size: 13px;
+    margin: 4px 0 4px;
+}
+
+.acoes-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+/* ---------- Sidebar de detalhes ---------- */
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 30;
+}
+
+.detail-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 340px;
+    max-width: 85vw;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border-soft);
+    padding: 28px 24px;
+    z-index: 35;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
+}
+
+.detail-sidebar.hidden {
+    transform: translateX(100%);
+    display: block;
+    pointer-events: none;
+}
+
+.detail-sidebar h2 {
+    font-size: 17px;
+    margin: 0 0 20px;
+}
+
+.btn-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    color: var(--text-primary);
+}
+
+.detail-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+}
+
+.detail-list dt {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 16px;
+}
+
+.detail-list dd {
+    margin: 4px 0 0;
+    font-size: 15px;
+}
+
+.detail-id {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    word-break: break-all;
+}
+
+/* ---------- Utilidade ---------- */
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    .app-container {
+        padding: 20px 16px 40px;
+    }
+
+    .agenda-table thead th.col-id,
+    .agenda-table tbody td:nth-child(2) {
+        display: none;
+    }
+}

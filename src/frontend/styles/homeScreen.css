@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        180deg,
+        #000000 0%,
+        #124125 50%,
+        #98FB98 100%
+    );
+}
+
+.home-container {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 45px;
+}
+
+.logo {
+    width: 550px;
+    max-width: 80%;
+
+    animation: flutuar 4s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+
+}
+
+.buttonEntrar {
+    padding: 15px 35px;
+
+    border: none;
+    border-radius: 12px;
+
+    background-color: #4fdf4f;
+    color: #071a0f;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+a{
+    color: #124125;
+    text-decoration: none;
+}
+
+a:hover{
+    color: rgb(14, 146, 106);
+}
+
+.buttonEntrar:hover {
+    transform: translateY(-3px);
+
+    background-color: #b8ffb8;
+
+    box-shadow: 0 8px 20px rgba(152, 251, 152, 0.25);
+}
+
+.buttonEntrar:active {
+    transform: translateY(1px);
+}
+

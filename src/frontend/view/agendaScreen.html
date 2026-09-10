@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Casa 2 Studio</title>
+
+    <link rel="stylesheet" href="../styles/agendaScreen.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Topo: título + botão de novo agendamento -->
+        <header class="app-header">
+            <img src="../image/IMG_0433 redimensionada.png" alt="Casa Studio 2">
+
+            <button id="btn-abrir-modal" class="btn btn-primary">
+                <span class="btn-plus">+</span> Fazer Agendamento
+            </button>
+        </header>
+
+        <!-- Barra de ações, só relevante quando há seleção -->
+        <div class="toolbar">
+            <h2 class="toolbar__titulo">Agenda de Ensaios</h2>
+
+            <div class="toolbar__acoes">
+                <span id="contador-selecionados" class="contador-selecionados hidden">0 selecionados</span>
+                <button id="btn-excluir-selecionados" class="btn btn-danger hidden">Excluir selecionados</button>
+            </div>
+        </div>
+
+        <!-- Tabela principal -->
+        <div class="table-wrapper">
+            <table class="agenda-table">
+                <thead>
+                    <tr>
+                        <th class="col-checkbox">
+                            <input type="checkbox" id="checkbox-selecionar-todos" aria-label="Selecionar todos">
+                        </th>
+                        <th class="col-id">INFO</th>
+                        <th class="col-banda">Banda</th>
+                        <th class="sortable" data-sort="horaInicio" id="th-hora-inicio">
+                            Início <span class="sort-arrow"></span>
+                        </th>
+                        <th class="sortable" data-sort="horaFim" id="th-hora-fim">
+                            Fim <span class="sort-arrow"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-tabela">
+                    <!-- linhas preenchidas via JavaScript -->
+                </tbody>
+            </table>
+
+            <div id="tabela-vazia" class="estado-vazio hidden">
+                <p>Nenhum ensaio agendado ainda.</p>
+                <p class="estado-vazio__sub">Clique em "+ Fazer Agendamento" para marcar o primeiro.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal de criação de agendamento -->
+    <div id="modal-agendamento" class="modal-overlay hidden">
+        <div class="modal-conteudo">
+            <h2>Novo Agendamento</h2>
+
+            <form id="form-agendamento" novalidate>
+                <div class="campo">
+                    <label for="input-nome-banda">Nome da Banda</label>
+                    <input type="text" id="input-nome-banda" name="nomeBanda" placeholder="Nome da Banda">
+                    <span id="erro-nome-banda" class="mensagem-erro hidden"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="input-hora-inicio">Horário do Ensaio</label>
+                    <input type="datetime-local" id="input-hora-inicio" name="horaInicio">
+                    <span id="erro-hora-inicio" class="mensagem-erro hidden"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="input-hora-fim">Fim do Ensaio</label>
+                    <input type="datetime-local" id="input-hora-fim" name="horaFim">
+                    <span id="erro-hora-fim" class="mensagem-erro hidden"></span>
+                </div>
+
+                <p id="erro-formulario" class="mensagem-erro mensagem-erro--geral hidden"></p>
+
+                <div class="acoes-modal">
+                    <button type="button" id="btn-cancelar" class="btn btn-secondary">Cancelar</button>
+                    <button id="btn-confirmar" type="submit" class="btn btn-primary">Confirmar Agendamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar de detalhes -->
+    <div id="fundo-sidebar" class="sidebar-backdrop hidden"></div>
+    <aside id="sidebar-detalhes" class="detail-sidebar hidden" aria-hidden="true">
+        <button id="btn-fechar-sidebar" class="btn-close" aria-label="Fechar">&times;</button>
+
+        <h2>Detalhes do Ensaio</h2>
+
+        <dl class="detail-list">
+            <dt>Banda</dt>
+            <dd id="detalhe-banda">—</dd>
+
+            <dt>Início</dt>
+            <dd id="detalhe-hora-inicio">—</dd>
+
+            <dt>Fim</dt>
+            <dd id="detalhe-hora-fim">—</dd>
+
+            <dt>ID</dt>
+            <dd id="detalhe-id" class="detail-id">—</dd>
+
+            <dt>Criado em</dt>
+            <dd id="detalhe-criado-em">—</dd>
+        </dl>
+    </aside>
+
+    <script src="../scripts/formAgendamentoController.js"></script>
+    <script src="../scripts/tableController.js"></script>
+
+</body>
+</html>
