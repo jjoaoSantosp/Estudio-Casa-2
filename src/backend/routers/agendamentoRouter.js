@@ -105,4 +105,31 @@ router.get('/agendamento', async(req, res)=>{
     }
 })
 
+router.get('/agendamento/:id', async (req, res) => {
+    
+    try {
+        
+        const {id} = req.params
+
+        const agendamento = await prisma.agendamento.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        if(!agendamento){
+            return res.status(404).json({
+                error: "Agendamento não Encontrado."
+            })
+        }
+
+        return res.status(200).json(agendamento)
+    } catch (error) {
+        console.error(error)
+
+        return res.status(500).json({
+            error: "Erro ao buscar os detalhes do agendamento."
+        })
+    }
+})
 export default router

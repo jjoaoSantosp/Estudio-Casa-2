@@ -136,11 +136,9 @@ async function loadAgendamento() {
         console.log(agendamentos)
         
         const tableBody = document.querySelector('#corpo-tabela')
-        const table = document.querySelector('.agenda-table')
         tableBody.innerHTML = ''
         
         const opcoes = {
-             
             month: 'numeric', 
             day: 'numeric',
             hour: '2-digit',
