@@ -32,15 +32,21 @@ document.getElementById('corpo-tabela').addEventListener('click', async(event)=>
         const ddHoraInicio = document.getElementById('detalhe-hora-inicio')
         const ddHoraFim = document.getElementById('detalhe-hora-fim')
         const ddID = document.getElementById('detalhe-id')
+        const ddValorEnsaio = document.getElementById('detalhe-valor-ensaio')
         const ddCreatedAt = document.getElementById('detalhe-criado-em')
         
         const opcoes = {
-            weekday: 'long',
             day: 'numeric',  
-            month: 'long',   
+            month: 'numeric',   
             year: 'numeric',
+            weekday: 'long',
             hour: '2-digit',
             minute: '2-digit'  
+        }
+
+        const opcoesValue = {
+            style: 'currency',
+            currency:'BRL'
         }
     
         ddBanda.textContent = agendamentoDetails.nomeBanda
@@ -56,7 +62,10 @@ document.getElementById('corpo-tabela').addEventListener('click', async(event)=>
         const criadoEm = new Date(agendamentoDetails.createdAt)
         ddCreatedAt.textContent = "Agendamento Criado em: "+ 
         criadoEm.toLocaleDateString('pt-BR', opcoes)
-    
+        
+        const valorReais = agendamentoDetails.valor/100
+        ddValorEnsaio.textContent = valorReais.toLocaleString('pt-BR', opcoesValue)
+
         backDropSideBar.classList.remove('hidden')
         sideBarDetails.classList.remove('hidden')
     
@@ -78,4 +87,3 @@ btnCloseSideBar.addEventListener('click', (event)=>{
     sideBarDetails.setAttribute('aria-hidden', 'true') 
 
 })
-

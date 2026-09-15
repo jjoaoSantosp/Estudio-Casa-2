@@ -47,6 +47,9 @@
                         <th class="sortable" data-sort="horaFim" id="th-hora-fim">
                             Fim <span class="sort-arrow"></span>
                         </th>
+                        <th class="sortable" id="th-valor">
+                            Valor <span class="sort-arrow"></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="corpo-tabela">
@@ -86,6 +89,12 @@
                     <span id="erro-hora-fim" class="mensagem-erro hidden"></span>
                 </div>
 
+                <div class="campo">
+                    <label for="input-valor">Valor</label>
+                    <input type="number" id="input-valor-ensaio" name="valor-ensaio" placeholder="R$" min="80" step="0.1">
+                    <span id="erro-valor-ensaio" class="mensagem-erro hidden"></span>
+                </div>
+
                 <p id="erro-formulario" class="mensagem-erro mensagem-erro--geral hidden"></p>
 
                 <div class="acoes-modal">
@@ -112,6 +121,9 @@
 
             <dt>Fim</dt>
             <dd id="detalhe-hora-fim">—</dd>
+
+            <dt>Valor</dt>
+            <dd id="detalhe-valor-ensaio">—</dd>
 
             <dt>ID</dt>
             <dd id="detalhe-id" class="detail-id">—</dd>
