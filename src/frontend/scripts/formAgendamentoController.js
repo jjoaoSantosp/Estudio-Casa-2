@@ -7,11 +7,13 @@ const modalAgendamento = document.getElementById('modal-agendamento')
 const inputNomeBanda = document.getElementById('input-nome-banda')
 const inputHoraInicio = document.getElementById('input-hora-inicio')
 const inputHoraFim = document.getElementById('input-hora-fim')
+const inputValorEnsaio = document.getElementById('input-valor-ensaio')
 
 const erroFormulario = document.getElementById('erro-formulario')
 const erroNomeBanda = document.getElementById('erro-nome-banda')
 const erroHoraInicio = document.getElementById('erro-hora-inicio')
 const erroHoraFim = document.getElementById('erro-hora-fim')
+const erroValorEnsaio = document.getElementById('erro-valor-ensaio')
 
 const emptyTable = document.getElementById('tabela-vazia')
 
@@ -31,6 +33,17 @@ btnCancelar.addEventListener('click', ()=>{
     modalAgendamento.classList.add('hidden')
 })
 
+inputValorEnsaio.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+
+        if (!inputValorEnsaio.value) {
+            inputValorEnsaio.value = '80'
+        }
+
+    }
+})
+
 formAgendamento.addEventListener('submit', async(event) =>{
     event.preventDefault()
     
@@ -39,6 +52,7 @@ formAgendamento.addEventListener('submit', async(event) =>{
         const nomeBanda = inputNomeBanda.value.trim()
         const horaInicio = inputHoraInicio.value
         const horaFim = inputHoraFim.value
+        const valorEnsaio = inputValorEnsaio.value.trim()
 
         let existError = false
 
@@ -70,7 +84,7 @@ formAgendamento.addEventListener('submit', async(event) =>{
             existError = true
 
         }else if(horaFim <= horaInicio){
-            erroHoraFim.textContent = "O horário do Fim do Ensaio não pode ser Menor que o Início."
+            erroHoraFim.textContent = "O horário do Fim do Ensaio não pode ser menor ou igual que o Início."
             erroHoraFim.classList.remove('hidden')
             existError = true
 
@@ -78,13 +92,31 @@ formAgendamento.addEventListener('submit', async(event) =>{
             erroHoraFim.textContent = ""
             erroHoraFim.classList.add('hidden')
         }
+
+        if(!valorEnsaio){
+            erroValorEnsaio.textContent = "Preencha o Campo de Valor do Ensaio."
+            erroValorEnsaio.classList.remove('hidden')
+            existError = true
+
+        }else if(valorEnsaio<80){
+            erroValorEnsaio.textContent = "O valor mínimo permitido para a contratação do ensaio é de R$ 80,00."
+            erroValorEnsaio.classList.remove('hidden')
+            existError = true
+
+        }else{
+            erroValorEnsaio.textContent = ""
+            erroValorEnsaio.classList.add('hidden')
+        }
+
+
         
         if(existError) return
 
         const agendamento = {
             nomeBanda,
             horaInicio,
-            horaFim
+            horaFim,
+            valor: valorEnsaio
         }
 
         const response = await fetch('http://localhost:3000/agendamento', {
@@ -145,12 +177,16 @@ async function loadAgendamento() {
             minute: '2-digit'
         }
 
+        const opcoesValue = {
+            style: 'currency',
+            currency:'BRL'
+        }
+
         agendamentos.forEach(element => {
             
             const newLine = document.createElement('tr')
-            //CHECKBOX
+
             const tdCheckBox = document.createElement('td')
-            
             const checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
             tdCheckBox.appendChild(checkbox)
@@ -178,12 +214,18 @@ async function loadAgendamento() {
             const dataFim = new Date(element.horaFim)
             tdhoraFim.textContent = dataFim.toLocaleDateString('pt-BR', opcoes)
             
+            //VALOR DO AGENDAMENTO
+            const tdValorEnsaio = document.createElement('td')
+            const valorReais = element.valor/100
+            tdValorEnsaio.textContent = valorReais.toLocaleString('pt-BR',opcoesValue)
+
             //MONTA A LINHA
             newLine.appendChild(tdCheckBox)
             newLine.appendChild(tdDetails)
             newLine.appendChild(tdnomeBanda)
             newLine.appendChild(tdhoraInicio)
             newLine.appendChild(tdhoraFim)
+            newLine.appendChild(tdValorEnsaio)
     
             //COLOCA A LINHA DENTRO DO TBODY
             tableBody.appendChild(newLine)
