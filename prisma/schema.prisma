@@ -12,6 +12,7 @@ model Agendamento {
   nomeBanda String
   horaInicio DateTime
   horaFim DateTime
+  valor Int
   createdAt DateTime @default(now())
 
   @@index([horaInicio])
