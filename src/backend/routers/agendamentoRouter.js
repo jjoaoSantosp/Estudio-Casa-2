@@ -12,10 +12,13 @@ router.post('/agendamento', async(req, res) => {
         const bandaAgendamento = req.body
 
         //Para identificar espaços vazios.
-        if(!bandaAgendamento.nomeBanda||!bandaAgendamento.horaInicio||!bandaAgendamento.horaFim){
+        if(!bandaAgendamento.nomeBanda||!bandaAgendamento.horaInicio
+            ||!bandaAgendamento.horaFim||!bandaAgendamento.valor){
+
             return res.status(400).json({
                 error: "Preencha todos os campos obrigatórios."
             })
+
         }
 
         // VALIDAÇÃO DO TIPO
@@ -42,6 +45,7 @@ router.post('/agendamento', async(req, res) => {
             })
         }
 
+        //EVITAR CONFLITO DE AGENDAMENTO DENTRO DO PRÓPRIO ENSAIO
         if(dateStart >= dateEnd){
             return res.status(400).json({
                 error: "A hora de início deve ser anterior à hora de término."
@@ -65,12 +69,33 @@ router.post('/agendamento', async(req, res) => {
 
         }
 
+        // CONVERTE O VALOR RECEBIDO PARA NÚMERO
+        const valor = Number(bandaAgendamento.valor)
+        
+        //CONFERE VALOR INSERIO É UM NÚMERO
+        if(isNaN(valor)){
+            return res.status(400).json({
+                error: "O valor informado deve ser um dado numérico válido."
+            })
+        }
+
+        //REGRA DE NEGÓCIO: AGENDAMENTO NÃO PODE TER VALOR INFERIOR A R$80
+        if(valor < 80){
+            return res.status(400).json({
+                error: "O valor mínimo permitido para a contratação do ensaio é de R$ 80,00."
+            })
+        }
+
+        //TRANSFORMAR O VALOR EM CENTAVOS
+        const valorCentavos = (valor*100)
+
         //CRIAÇÃO DO AGENDAMENTO NO BANCO DE DADOS
         const agendamentoDB = await prisma.agendamento.create({
             data: {
                 nomeBanda: bandaAgendamento.nomeBanda,
                 horaInicio: dateStart,
                 horaFim: dateEnd,
+                valor: valorCentavos,
                 createdAt: new Date(aplicarFusoHorario(obterDataHoraLocalISO()))
                
             }
@@ -106,7 +131,6 @@ router.get('/agendamento', async(req, res)=>{
 })
 
 router.get('/agendamento/:id', async (req, res) => {
-    
     try {
         
         const {id} = req.params
