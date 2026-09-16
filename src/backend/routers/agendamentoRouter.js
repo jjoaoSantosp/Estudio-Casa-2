@@ -221,7 +221,7 @@ router.patch('/agendamento/:id', async (req, res) => {
             })
 
             if(dateConflited){
-                return res.status(400).json({
+                return res.status(409).json({
                     error: 'Já existe um ensaio marcado nesse horário.'
                 })
             }
@@ -265,6 +265,58 @@ router.patch('/agendamento/:id', async (req, res) => {
             error: "Erro interno do servidor ao atualizar o agendamento."
         })
 
+    }
+})
+
+router.delete('/agendamento/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const agendamentoDelete = await prisma.agendamento.delete({
+            where:{
+                id: id
+            }
+        })
+
+        if(!agendamentoDelete){
+            return res.status(404).json({
+                message: "Agendamento deletado com sucesso.",
+                agendamento: agendamentoDelete
+            })
+        }
+
+        return res.status(200).json(agendamentoDelete)
+    } catch (error) {
+
+        console.error('Erro ao deletar agendamento:', error)
+
+        if (error.code === 'P2025') {
+            return res.status(404).json({
+                error: "Agendamento não encontrado."
+        })
+
+        }
+
+        return res.status(500).json({
+            error: "Erro interno do servidor ao deletar o agendamento."
+        })
+    }
+})
+
+router.delete('/agendamento', async (req, res) => {
+    try {
+        const agendamentosDeleteAll = await prisma.agendamento.deleteMany()
+
+        return res.status(200).json({
+            message: "Todos os Agendamentos Foram Deletados com Sucesso. ",
+            quantidade: agendamentosDeleteAll.count
+        })
+    } catch (error) {
+        console.error("Erro ao deletar os agendamentos", error)
+
+        return res.status(500).json({
+            error: "Erro Interno do Servidor ao Deletar os Agendamentos."
+        })
     }
 })
 export default router
