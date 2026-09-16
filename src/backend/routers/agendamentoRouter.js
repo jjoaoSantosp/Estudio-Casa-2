@@ -156,4 +156,115 @@ router.get('/agendamento/:id', async (req, res) => {
         })
     }
 })
+
+router.patch('/agendamento/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const {
+            nomeBanda,
+            horaInicio,
+            horaFim,
+            valor
+        } = req.body
+
+        const agendamentoExist = 
+            await prisma.agendamento.findUnique({
+                where: {
+                    id: id
+                }
+            })
+
+            if(!agendamentoExist){
+                return res.status(404).json({
+                    error: "Agendamento não encontrado."
+                })
+            }
+
+            //VALIDAÇÕES
+            if(!nomeBanda||!horaInicio
+            ||!horaFim||valor===undefined){
+                return res.status(400).json({
+                    error: "Preencha todos os campos obrigatórios."
+                })
+            }
+
+            if(typeof nomeBanda !== 'string'){
+                return res.status(400).json({
+                    error:"Nome da banda deve ser texto."
+                })
+            }
+            const dateStart =new Date(aplicarFusoHorario(horaInicio))
+            const dateEnd= new Date(aplicarFusoHorario(horaFim))
+
+            if(isNaN(dateStart.getTime())||isNaN(dateEnd.getTime())){
+                return res.status(400).json({
+                    error: "Formato de Data Inválida."
+                })
+            }
+
+            if(dateStart >= dateEnd){
+                return res.status(400).json({
+                    error: "A hora de início deve ser anterior a hora do término."
+                })
+            }
+
+            //VERIFICAR CONFLITO IGNORANDO O PRÓPRIO AGENDAMENTO
+            const dateConflited = await prisma.agendamento.findFirst({
+                where:{
+                    AND: [
+                        { id: {not: id}},
+                        { horaInicio: {lt: dateEnd}},
+                        { horaFim: {gt: dateStart}}
+                    ]
+                }
+            })
+
+            if(dateConflited){
+                return res.status(400).json({
+                    error: 'Já existe um ensaio marcado nesse horário.'
+                })
+            }
+
+            if(isNaN(Number(valor))){
+                return res.status(400).json({
+                    error: "O valor Informado deve ser numérico."
+                })
+            }
+
+            if(Number(valor)<80){
+                return res.status(400).json({
+                    error: "O valor mínimo aceito é R$ 80,00."
+                })
+            }
+
+            const valorCentavos = Number(valor)*100
+
+            const agendamentoUpdated = await prisma.agendamento.update({
+                where:{
+                    id: id
+                },
+                
+                data:{
+                    nomeBanda: nomeBanda,
+                    horaInicio: dateStart,
+                    horaFim: dateEnd,
+                    valor: valorCentavos
+                }
+            })
+
+            return res.status(200).json({
+                agendamentoUpdated
+            })
+
+    } catch (error) {
+
+        console.error('Erro ao atualizar agendamento:', error)
+
+        return res.status(500).json({
+            error: "Erro interno do servidor ao atualizar o agendamento."
+        })
+
+    }
+})
 export default router
