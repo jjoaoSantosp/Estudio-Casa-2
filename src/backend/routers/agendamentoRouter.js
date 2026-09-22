@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import { prisma } from '../db.js'
-import { aplicarFusoHorario, obterDataHoraLocalISO } from '../../frontend/scripts/fusoHorarioController.js'
+import { aplicarFusoHorario, obterDataHoraLocalISO } from '../../frontend/scripts/horarioScript.js'
 
 const app = express()
 app.use(express.json())
