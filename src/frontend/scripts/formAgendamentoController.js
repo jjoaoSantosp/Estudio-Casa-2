@@ -135,8 +135,8 @@ formAgendamento.addEventListener('submit', async(event) =>{
         if(!response.ok){
             throw new Error(data.error)
         }
-
-        console.log("Agendamento Feito Com Sucesso!", {nomeBanda, horaInicio, horaFim})
+        
+        console.log("Agendamento Feito Com Sucesso!", {nomeBanda, horaInicio, horaFim, valor})
 
         await loadAgendamento()
         
@@ -189,6 +189,7 @@ async function loadAgendamento() {
             const tdCheckBox = document.createElement('td')
             const checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
+            checkbox.dataset.id = element.id
             tdCheckBox.appendChild(checkbox)
             
             //BUTÃO DE DETALHES DO AGENDAMENTO

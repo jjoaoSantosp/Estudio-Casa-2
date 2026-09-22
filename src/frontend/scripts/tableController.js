@@ -1,9 +1,14 @@
+import { abrirModalEdicao } from "./formAtualizacao.js"
+
 const backDropSideBar = document.getElementById('fundo-sidebar')
 const sideBarDetails = document.getElementById('sidebar-detalhes')
 const btnCloseSideBar = document.getElementById('btn-fechar-sidebar')
+const btnEditAgendamento = document.getElementById('btn-open-modal-edition')
+ 
+let idAgendamentoSelecionado = null
 
 document.getElementById('corpo-tabela').addEventListener('click', async(event)=>{
-        
+    
     try {
 
         if(event.target.tagName !== 'BUTTON'){return}
@@ -27,7 +32,8 @@ document.getElementById('corpo-tabela').addEventListener('click', async(event)=>
         
         const agendamentoDetails = await responseDetails.json()
         console.log(agendamentoDetails)
-    
+        idAgendamentoSelecionado = agendamentoDetails.id
+
         const ddBanda = document.getElementById('detalhe-banda')
         const ddHoraInicio = document.getElementById('detalhe-hora-inicio')
         const ddHoraFim = document.getElementById('detalhe-hora-fim')
@@ -86,4 +92,12 @@ btnCloseSideBar.addEventListener('click', (event)=>{
     sideBarDetails.classList.add('hidden')
     sideBarDetails.setAttribute('aria-hidden', 'true') 
 
+})
+
+btnEditAgendamento.addEventListener('click', ()=>{
+
+    if(!idAgendamentoSelecionado){
+        return
+    }
+    abrirModalEdicao(idAgendamentoSelecionado)
 })
