@@ -104,37 +104,81 @@
             </form>
         </div>
     </div>
-
+    
     <!-- Sidebar de detalhes -->
     <div id="fundo-sidebar" class="sidebar-backdrop hidden"></div>
     <aside id="sidebar-detalhes" class="detail-sidebar hidden" aria-hidden="true">
         <button id="btn-fechar-sidebar" class="btn-close" aria-label="Fechar">&times;</button>
-
+        
         <h2>Detalhes do Ensaio</h2>
-
+        
         <dl class="detail-list">
-            <dt>Banda</dt>
-            <dd id="detalhe-banda">—</dd>
-
-            <dt>Início</dt>
-            <dd id="detalhe-hora-inicio">—</dd>
-
-            <dt>Fim</dt>
-            <dd id="detalhe-hora-fim">—</dd>
-
-            <dt>Valor</dt>
-            <dd id="detalhe-valor-ensaio">—</dd>
-
             <dt>ID</dt>
             <dd id="detalhe-id" class="detail-id">—</dd>
 
+            <dt>Banda</dt>
+            <dd id="detalhe-banda">—</dd>
+            
+            <dt>Início</dt>
+            <dd id="detalhe-hora-inicio">—</dd>
+            
+            <dt>Fim</dt>
+            <dd id="detalhe-hora-fim">—</dd>
+            
+            <dt>Valor</dt>
+            <dd id="detalhe-valor-ensaio">—</dd>
+            
             <dt>Criado em</dt>
             <dd id="detalhe-criado-em">—</dd>
         </dl>
+
+        <button id="btn-open-modal-edition" class="btn btn-primary">
+            [Editar]
+        </button>
+        
     </aside>
+    
+    <!-- Modal de atualização de agendamento -->
+    <div id="modal-atualizar-agendamento" class="modal-overlay hidden">
+        <div class="modal-conteudo">
+            <h2>Atualização de Agendamento</h2>
 
-    <script src="../scripts/formAgendamentoController.js"></script>
-    <script src="../scripts/tableController.js"></script>
+            <form id="form-agendamento-up" novalidate>
+                <div class="campo">
+                    <label for="input-nome-banda">Nome da Banda</label>
+                    <input type="text" id="input-nome-banda-up" name="nomeBanda" placeholder="Nome da Banda">
+                    <span id="erro-nome-banda-up" class="mensagem-erro hidden"></span>
+                </div>
 
+                <div class="campo">
+                    <label for="input-hora-inicio">Horário do Ensaio</label>
+                    <input type="datetime-local" id="input-hora-inicio-up" name="horaInicio">
+                    <span id="erro-hora-inicio-up" class="mensagem-erro hidden"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="input-hora-fim">Fim do Ensaio</label>
+                    <input type="datetime-local" id="input-hora-fim-up" name="horaFim">
+                    <span id="erro-hora-fim-up" class="mensagem-erro hidden"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="input-valor">Valor</label>
+                    <input type="number" id="input-valor-ensaio-up" name="valor-ensaio" placeholder="R$" min="80" step="0.1">
+                    <span id="erro-valor-ensaio-up" class="mensagem-erro hidden"></span>
+                </div>
+
+                <p id="erro-formulario-up" class="mensagem-erro mensagem-erro--geral hidden"></p>
+
+                <div class="acoes-modal">
+                    <button type="button" id="btn-cancelar-up" class="btn btn-secondary">Cancelar</button>
+                    <button id="btn-confirmar-up" type="submit" class="btn btn-primary">Atualizar Agendamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/formAgendamentoController.js"></script>
+    <script type="module" src="../scripts/tableController.js"></script>
 </body>
 </html>
