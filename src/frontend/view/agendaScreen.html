@@ -26,8 +26,8 @@
             <h2 class="toolbar__titulo">Agenda de Ensaios</h2>
 
             <div class="toolbar__acoes">
-                <span id="contador-selecionados" class="contador-selecionados hidden">0 selecionados</span>
-                <button id="btn-excluir-selecionados" class="btn btn-danger hidden">Excluir selecionados</button>
+                <span id="contador-selecionados" class="contador-selecionados">0 selecionados</span>
+                <button id="btn-excluir-selecionados" class="btn btn-danger ">Excluir selecionados</button>
             </div>
         </div>
 
@@ -175,6 +175,45 @@
                     <button id="btn-confirmar-up" type="submit" class="btn btn-primary">Atualizar Agendamento</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação de exclusão -->
+    <div id="modal-confirmar-exclusao" class="modal-overlay hidden">
+        <div class="modal-conteudo modal-confirmacao">
+
+            <div class="confirmacao-icone" aria-hidden="true">
+                !
+            </div>
+
+            <div class="confirmacao-conteudo">
+                <h2>Excluir agendamento?</h2>
+
+                <p id="mensagem-confirmacao-exclusao">
+                    Tem certeza de que deseja excluir os agendamentos selecionados?
+                </p>
+
+                <p class="confirmacao-aviso">
+                    Essa ação não poderá ser desfeita.
+                </p>
+            </div>
+
+            <div class="acoes-modal">
+                <button
+                    type="button"
+                    id="btn-cancelar-exclusao"
+                    class="btn btn-secondary">
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    id="btn-confirmar-exclusao"
+                    class="btn btn-danger-confirmacao">
+                    Excluir
+                </button>
+            </div>
+
         </div>
     </div>
 
