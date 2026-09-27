@@ -56,7 +56,7 @@ body {
 .btn {
     border: none;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     padding: 11px 20px;
@@ -148,7 +148,7 @@ body {
 
 .agenda-table thead th {
     text-align: left;
-    font-size: 12px;
+    font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--text-muted);
@@ -185,7 +185,7 @@ body {
 .agenda-table tbody td {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border-soft);
-    font-size: 14px;
+    font-size: 16px;
     vertical-align: middle;
 }
 
@@ -220,8 +220,8 @@ body {
 
 input[type="checkbox"] {
     accent-color: var(--color-accent);
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
 }
 
@@ -411,5 +411,160 @@ input[type="checkbox"] {
     .agenda-table thead th.col-id,
     .agenda-table tbody td:nth-child(2) {
         display: none;
+    }
+}
+
+/* ---------- Seleção de linhas ---------- */
+
+.agenda-table tbody tr.linha-selecionada {
+    background-color: rgba(34, 197, 94, 0.08);
+}
+
+.agenda-table tbody tr.linha-selecionada:hover {
+    background-color: rgba(34, 197, 94, 0.12);
+}
+
+/* Checkbox da linha selecionada */
+
+.agenda-table tbody tr.linha-selecionada td:first-child {
+    box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+
+/* ---------- Contador de selecionados ---------- */
+
+.contador-selecionados {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+
+    border-radius: 8px;
+
+    background-color: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.18);
+
+    color: var(--color-accent-hover);
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* ---------- Botão de exclusão contextual ---------- */
+
+#btn-excluir-selecionados {
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+#btn-excluir-selecionados:not(.hidden) {
+    animation: aparecer-acao 0.18s ease;
+}
+
+@keyframes aparecer-acao {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ---------- Modal de confirmação ---------- */
+
+.modal-confirmacao {
+    max-width: 430px;
+    padding: 30px;
+}
+
+.confirmacao-icone {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background-color: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+
+    color: var(--danger);
+
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.confirmacao-conteudo h2 {
+    margin-bottom: 10px;
+}
+
+.confirmacao-conteudo p {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.confirmacao-aviso {
+    margin-top: 8px !important;
+
+    font-size: 13px;
+    color: var(--danger-hover) !important;
+}
+
+.btn-danger-confirmacao {
+    background-color: var(--danger);
+    color: #fff;
+}
+
+.btn-danger-confirmacao:hover {
+    background-color: var(--danger-hover);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.22);
+}
+
+
+/* ---------- Melhor comportamento da toolbar ---------- */
+
+.toolbar__acoes {
+    min-height: 34px;
+}
+
+
+/* ---------- Responsividade ---------- */
+
+@media (max-width: 640px) {
+
+    .toolbar {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .toolbar__acoes {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .contador-selecionados {
+        font-size: 15px;
+    }
+
+    #btn-excluir-selecionados {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .modal-confirmacao {
+        width: calc(100% - 32px);
+        padding: 24px;
     }
 }
