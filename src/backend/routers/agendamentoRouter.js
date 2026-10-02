@@ -268,52 +268,48 @@ router.patch('/agendamento/:id', async (req, res) => {
     }
 })
 
-router.delete('/agendamento/:id', async (req, res) => {
+router.delete('/agendamento', async (req, res) => {
     try {
-        const {id} = req.params
+        const {ids} = req.body
 
-        const agendamentoDelete = await prisma.agendamento.delete({
-            where:{
-                id: id
-            }
-        })
-
-        if(!agendamentoDelete){
-            return res.status(404).json({
-                message: "Agendamento deletado com sucesso.",
-                agendamento: agendamentoDelete
+        //VERIFICA SE O CONTEÚDO DA REQUISIÇÃO É UM ARRAY
+        if(!Array.isArray(ids)||ids.length===0){
+            return res.status(400).json({
+                error: "Envie pelo menos um ID de agendamento."
+            })
+        }
+        
+        //VERIFICA SE O CONTEÚDO DO ARRAY DE IDs SÃO STRINGS
+        if(!ids.every(id => typeof id === 'string')){
+            return res.status(400).json({
+                error: "Os IDs dos Agendamentos Devem ser Textos."
             })
         }
 
-        return res.status(200).json(agendamentoDelete)
+        
+        const agendamentosDeleteds = await prisma.agendamento.deleteMany({
+            where: {
+                id:{
+                    in: ids
+                }
+            }
+        }) 
+        
+        
+        return res.status(200).json({
+            message: "Agendamentos Deletados com Sucesso.",
+            quantidade: agendamentosDeleteds.count
+        })
+
     } catch (error) {
-
-        console.error('Erro ao deletar agendamento:', error)
-
+        console.error("Erro ao deletar os agendamentos", error)
+        
         if (error.code === 'P2025') {
             return res.status(404).json({
                 error: "Agendamento não encontrado."
-        })
-
+            })
         }
-
-        return res.status(500).json({
-            error: "Erro interno do servidor ao deletar o agendamento."
-        })
-    }
-})
-
-router.delete('/agendamento', async (req, res) => {
-    try {
-        const agendamentosDeleteAll = await prisma.agendamento.deleteMany()
-
-        return res.status(200).json({
-            message: "Todos os Agendamentos Foram Deletados com Sucesso. ",
-            quantidade: agendamentosDeleteAll.count
-        })
-    } catch (error) {
-        console.error("Erro ao deletar os agendamentos", error)
-
+        
         return res.status(500).json({
             error: "Erro Interno do Servidor ao Deletar os Agendamentos."
         })
