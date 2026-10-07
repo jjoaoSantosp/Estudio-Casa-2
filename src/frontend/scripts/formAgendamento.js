@@ -190,6 +190,7 @@ async function loadAgendamento() {
             const checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
             checkbox.dataset.id = element.id
+            checkbox.classList.add('table-checkbox')
             tdCheckBox.appendChild(checkbox)
             
             //BUTÃO DE DETALHES DO AGENDAMENTO
