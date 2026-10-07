@@ -1,87 +1,110 @@
+/* ==========================================
+   CONFIGURAÇÕES GERAIS E LAYOUT
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
-
+    font-family: Arial, Helvetica, sans-serif;
     background: linear-gradient(
         180deg,
         #000000 0%,
-        #124125 50%,
-        #98FB98 100%
+        #01963f 50%,
+        #62c25f 100%
     );
 }
 
 .home-container {
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
-
     gap: 45px;
 }
+
+/* ==========================================
+   LOGO E ANIMAÇÃO
+   ========================================== */
 
 .logo {
     width: 550px;
     max-width: 80%;
-
     animation: flutuar 4s ease-in-out infinite;
 }
 
 @keyframes flutuar {
-
     0% {
         transform: translateY(0);
     }
-
     50% {
         transform: translateY(-12px);
     }
-
     100% {
         transform: translateY(0);
     }
-
 }
 
-.buttonEntrar {
+/* ==========================================
+   BOTÃO ENTRAR (TAG <a>)
+   ========================================== */
+
+/* Estado Normal e Link Visitado */
+.buttonEntrar,
+.buttonEntrar:link,
+.buttonEntrar:visited {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 15px 35px;
 
     border: none;
     border-radius: 12px;
 
     background-color: #4fdf4f;
-    color: #071a0f;
+    color: #075207;
 
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-weight: bold;
 
+    text-decoration: none;
     cursor: pointer;
 
-    transition:
+    transition: 
         transform 0.2s ease,
         box-shadow 0.2s ease,
-        background-color 0.2s ease;
-}
-a{
-    color: #124125;
-    text-decoration: none;
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
-a:hover{
-    color: rgb(14, 146, 106);
-}
-
-.buttonEntrar:hover {
-    transform: translateY(-3px);
-
+/* Hover (Mouse por cima) */
+.buttonEntrar:hover,
+.buttonEntrar:visited:hover {
     background-color: #b8ffb8;
-
+    color: #075207;
+    transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(152, 251, 152, 0.25);
 }
 
-.buttonEntrar:active {
+/* Active (Enquanto clica) */
+.buttonEntrar:active,
+.buttonEntrar:visited:active {
+    background-color: #4fdf4f;
+    color: #075207;
     transform: translateY(1px);
+    box-shadow: none;
 }
 
+/* Focus (Navegação por teclado/foco) */
+.buttonEntrar:focus,
+.buttonEntrar:visited:focus {
+    background-color: #4fdf4f;
+    color: #075207;
+    outline: none;
+}
