@@ -101,3 +101,27 @@ btnEditAgendamento.addEventListener('click', ()=>{
     }
     abrirModalEdicao(idAgendamentoSelecionado)
 })
+
+const countSelected = document.getElementById('contador-selecionados')
+const btnDeleteSelected = document.getElementById('btn-excluir-selecionados')
+
+const modalConfirmedDelete = document.getElementById('modal-confirmar-exclusao')
+const btnCancelDelete = document.getElementById('btn-cancelar-exclusao')
+
+const checkboxSelectedAll = document.getElementById('checkbox-selecionar-todos')
+
+btnDeleteSelected.addEventListener('click', ()=>{
+    modalConfirmedDelete.classList.remove('hidden')
+})
+
+btnCancelDelete.addEventListener('click', ()=>{
+    modalConfirmedDelete.classList.add('hidden')
+})
+
+checkboxSelectedAll.addEventListener('click', ()=>{
+    let idsSelecionados = document.querySelectorAll('.table-checkbox')
+
+    idsSelecionados.forEach(checkbox => {
+        checkbox.checked = checkboxSelectedAll.checked
+    });
+})
