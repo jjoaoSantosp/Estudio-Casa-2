@@ -7,6 +7,7 @@ const btnEditAgendamento = document.getElementById('btn-open-modal-edition')
  
 let idAgendamentoSelecionado = null
 
+//EVENTO DE EXIBIR OS DETALHES DO AGENDAMENTO
 document.getElementById('corpo-tabela').addEventListener('click', async(event)=>{
     
     try {
@@ -87,6 +88,7 @@ document.getElementById('corpo-tabela').addEventListener('click', async(event)=>
     }
 })
 
+//FECHAR A SIDEBAR DE DETALHER 
 btnCloseSideBar.addEventListener('click', (event)=>{
     backDropSideBar.classList.add('hidden')
     sideBarDetails.classList.add('hidden')
@@ -94,6 +96,7 @@ btnCloseSideBar.addEventListener('click', (event)=>{
 
 })
 
+//BOTÃO [EDITAR] OS ATRIBUTOS DO AGENDAMENTO
 btnEditAgendamento.addEventListener('click', ()=>{
 
     if(!idAgendamentoSelecionado){
@@ -102,26 +105,62 @@ btnEditAgendamento.addEventListener('click', ()=>{
     abrirModalEdicao(idAgendamentoSelecionado)
 })
 
-const countSelected = document.getElementById('contador-selecionados')
+const countSelected = document.querySelector('.count-select')
 const btnDeleteSelected = document.getElementById('btn-excluir-selecionados')
 
 const modalConfirmedDelete = document.getElementById('modal-confirmar-exclusao')
 const btnCancelDelete = document.getElementById('btn-cancelar-exclusao')
 
 const checkboxSelectedAll = document.getElementById('checkbox-selecionar-todos')
+let idsSelecionados = document.querySelectorAll('.table-checkbox')
 
+//SELEÇÃO DE TODOS OS CHECKBOX
+checkboxSelectedAll.addEventListener('click', ()=>{
+    idsSelecionados = document.querySelectorAll('.table-checkbox')
+    let count = 0
+    idsSelecionados.forEach(checkbox => {
+        if(checkboxSelectedAll.checked == true){
+            checkbox.checked = checkboxSelectedAll.checked
+            count++
+        }else{
+            checkbox.checked = checkboxSelectedAll.checked
+            count=0
+        }
+    });
+        
+    countSelected.textContent = count
+})
+
+//SELEÇÃO INDIVIDUAL DE CHECKBOX
+const corpoTabela = document.getElementById('corpo-tabela')
+corpoTabela.addEventListener('click', (event) => {
+
+    if (!event.target.classList.contains('table-checkbox')) {
+        return
+    }
+
+    let count = 0
+
+    const checkboxIndividual = document.querySelectorAll('.table-checkbox')
+
+    checkboxIndividual.forEach(checkbox => {
+
+        if (checkbox.checked == true) {
+            count++
+        }
+
+    })
+
+    countSelected.textContent = count
+
+})
+
+//EVENTO DE EXIBIR MODAL DE EXCLUSÃO
 btnDeleteSelected.addEventListener('click', ()=>{
     modalConfirmedDelete.classList.remove('hidden')
 })
 
+//EVENTO DE CANCELAR EXCLUSÃO
 btnCancelDelete.addEventListener('click', ()=>{
     modalConfirmedDelete.classList.add('hidden')
-})
-
-checkboxSelectedAll.addEventListener('click', ()=>{
-    let idsSelecionados = document.querySelectorAll('.table-checkbox')
-
-    idsSelecionados.forEach(checkbox => {
-        checkbox.checked = checkboxSelectedAll.checked
-    });
 })
