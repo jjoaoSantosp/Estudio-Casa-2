@@ -464,6 +464,9 @@ input[type="checkbox"] {
     font-weight: 600;
 }
 
+.count-select{
+    margin-right: 5px;
+}
 
 /* ---------- Botão de exclusão contextual ---------- */
 
