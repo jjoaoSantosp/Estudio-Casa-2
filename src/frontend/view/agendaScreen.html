@@ -222,6 +222,34 @@
         </div>
     </div>
 
+    <!-- Modal de confirmação de exclusão vazia-->
+    <div id="modal-confirmar-exclusao-empty" class="modal-overlay hidden">
+        <div class="modal-conteudo modal-confirmacao">
+
+            <div class="confirmacao-conteudo">
+                <h2>Nenhum agendamento foi selecionado</h2>
+
+                <p id="mensagem-confirmacao-exclusao">
+                    Selecione ao menos 1 agendamento para poder excluir
+                </p>
+
+                <p class="confirmacao-aviso">
+                    Opção inválida por não a ver seleção de agendamento
+                </p>
+            </div>
+
+            <div class="acoes-modal">
+                <button
+                    type="button"
+                    id="btn-confirmar-exclusao-empty"
+                    class="btn btn-danger-confirmacao">
+                    Voltar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <script type="module" src="../scripts/formAgendamento.js"></script>
     <script type="module" src="../scripts/tableController.js"></script>
 </body>
