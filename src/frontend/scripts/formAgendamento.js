@@ -24,6 +24,7 @@ btnAbrirModal.addEventListener('click', () => {
     erroNomeBanda.classList.add('hidden')
     erroHoraInicio.classList.add('hidden')
     erroHoraFim.classList.add('hidden')
+    erroValorEnsaio.classList.add('hidden')
     erroFormulario.classList.add('hidden')
     
     modalAgendamento.classList.remove('hidden')
@@ -136,7 +137,9 @@ formAgendamento.addEventListener('submit', async(event) =>{
             throw new Error(data.error)
         }
         
-        console.log("Agendamento Feito Com Sucesso!", {nomeBanda, horaInicio, horaFim, valor})
+        console.log("Agendamento Feito Com Sucesso!", {nomeBanda, horaInicio, horaFim, valorEnsaio})
+
+        modalAgendamento.classList.add('hidden')
 
         await loadAgendamento()
         
@@ -188,9 +191,11 @@ async function loadAgendamento() {
 
             const tdCheckBox = document.createElement('td')
             const checkbox = document.createElement('input')
+            
             checkbox.type = 'checkbox'
-            checkbox.dataset.id = element.id
-            checkbox.classList.add('table-checkbox')
+            checkbox.className = 'table-checkbox';
+            checkbox.value = element.id
+
             tdCheckBox.appendChild(checkbox)
             
             //BUTÃO DE DETALHES DO AGENDAMENTO
@@ -232,6 +237,11 @@ async function loadAgendamento() {
             //COLOCA A LINHA DENTRO DO TBODY
             tableBody.appendChild(newLine)
         });
+
+        // CORREÇÃO: avisa o tableController.js que a tabela foi recriada.
+        // As linhas novas nascem desmarcadas, então a contagem precisa ser zerada.
+        // (Os dois arquivos são módulos separados, por isso a comunicação é por evento.)
+        document.dispatchEvent(new CustomEvent('tabela-atualizada'))
     
         return agendamentos
 
