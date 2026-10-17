@@ -535,7 +535,7 @@ input[type="checkbox"] {
 .confirmacao-aviso {
     margin-top: 8px !important;
 
-    font-size: 13px;
+    font-size: 15px;
     color: var(--danger-hover) !important;
 }
 
