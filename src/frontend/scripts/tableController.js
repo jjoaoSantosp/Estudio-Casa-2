@@ -105,62 +105,152 @@ btnEditAgendamento.addEventListener('click', ()=>{
     abrirModalEdicao(idAgendamentoSelecionado)
 })
 
-const countSelected = document.querySelector('.count-select')
-const btnDeleteSelected = document.getElementById('btn-excluir-selecionados')
 
+console.log('tableController carregado');
+
+
+
+//VARIÁVEIS ENVOLVENDO MODAL DE EXCLUSÃO
 const modalConfirmedDelete = document.getElementById('modal-confirmar-exclusao')
-const btnCancelDelete = document.getElementById('btn-cancelar-exclusao')
+const modalExclusionEmpty = document.getElementById('modal-confirmar-exclusao-empty')
 
+//VARIÁVEIS ENVOLVENDO AS FUNÇÕES DO MODAL DE EXCLUSÃO
+const btnCancelDelete = document.getElementById('btn-cancelar-exclusao')
+const btnModalDelete = document.getElementById('btn-excluir-selecionados')
+const btnDeleteConfirmed = document.getElementById('btn-confirmar-exclusao')
+const btnCancelDeleteEmpty = document.getElementById('btn-confirmar-exclusao-empty')
+
+//VARIÁVEIS RELACIONADAS A CHECKBOXES SELECIONADOS
+const countSelected = document.querySelector('.count-select')
 const checkboxSelectedAll = document.getElementById('checkbox-selecionar-todos')
-let idsSelecionados = document.querySelectorAll('.table-checkbox')
+
+
+console.log({
+  countSelected,
+  checkboxSelectedAll,
+  btnModalDelete,
+  modalConfirmedDelete,
+  modalExclusionEmpty
+});
+
+
+//ATUALIZAR CONTAGEM
+function atualizarContagem() {
+    
+    //Atribui uma NodeList para variávei com todos os checkboxes que estão marcados 
+    //Faz a atribuição a partir dos checkboxes da lista
+    const checkboxesMarcados = document.querySelectorAll('#corpo-tabela .table-checkbox:checked');
+    
+    //Atribui o tamanho da NodeList para ser um conteúdo de contagem de selecionados
+    countSelected.textContent = checkboxesMarcados.length;
+}
 
 //SELEÇÃO DE TODOS OS CHECKBOX
-checkboxSelectedAll.addEventListener('click', ()=>{
-    idsSelecionados = document.querySelectorAll('.table-checkbox')
-    let count = 0
-    idsSelecionados.forEach(checkbox => {
-        if(checkboxSelectedAll.checked == true){
-            checkbox.checked = checkboxSelectedAll.checked
-            count++
-        }else{
-            checkbox.checked = checkboxSelectedAll.checked
-            count=0
-        }
+checkboxSelectedAll.addEventListener('change', () => {
+
+    //PEGAR TODOS OS ELEMENTOS COM A CLASSE '.table-checkbox'
+    const checkboxes = document.querySelectorAll('#corpo-tabela .table-checkbox');
+
+    //PERCORRE TODAS AS CHECKBOXES E COPIA O ESTADO DA CAIXA PRINCIPAL
+    //DEIXANDO MARCADAS OU DESMARCADAS BASEADA NA CHECKBOX DO CABEÇALHO
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = checkboxSelectedAll.checked;
+
     });
-        
-    countSelected.textContent = count
-})
 
-//SELEÇÃO INDIVIDUAL DE CHECKBOX
-const corpoTabela = document.getElementById('corpo-tabela')
-corpoTabela.addEventListener('click', (event) => {
+    atualizarContagem();
+});
 
-    if (!event.target.classList.contains('table-checkbox')) {
-        return
+// SELEÇÃO INDIVIDUAL DE CHECKBOX
+// Funciona mesmo quando as linhas são criadas dinamicamente.
+document.getElementById('corpo-tabela').addEventListener('change', (event) => {
+
+    if (!event.target.matches('.table-checkbox')) {
+        return;
     }
 
-    let count = 0
+    const all = document.querySelectorAll('#corpo-tabela .table-checkbox')
 
-    const checkboxIndividual = document.querySelectorAll('.table-checkbox')
+    const marked = document.querySelectorAll('#corpo-tabela .table-checkbox:checked')
 
-    checkboxIndividual.forEach(checkbox => {
+    checkboxSelectedAll.checked = all.length > 0 && marked.length === all.length
 
-        if (checkbox.checked == true) {
-            count++
+    atualizarContagem()
+
+})
+
+// CORREÇÃO: quando o formAgendamento.js recria as linhas da tabela (loadAgendamento),
+// todas nascem desmarcadas. Sem isso, a contagem e o checkbox do cabeçalho
+// continuavam mostrando o estado antigo.
+document.addEventListener('tabela-atualizada', () => {
+    checkboxSelectedAll.checked = false
+    atualizarContagem()
+})
+
+async function deleteScheduling() {
+    
+    try {
+        const schedulingSelected = Array.from(document.querySelectorAll('.table-checkbox:checked')).
+        map(checkbox => checkbox.value)
+     
+        const responseSchedulingDelete = await fetch('http://localhost:3000/agendamento', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ids: schedulingSelected
+            })
+        })
+
+        const result = await responseSchedulingDelete.json()
+
+        if(!responseSchedulingDelete.ok){
+            throw new Error(result.error || 'Erro ao deletar agendamentos.')
         }
 
-    })
+        console.log('Agendamentos deletados com sucesso!', {
+            quantidade: schedulingSelected.length,
+            resultado: result
+        })
 
-    countSelected.textContent = count
+        // Fecha o modal após o sucesso
+        modalConfirmedDelete.classList.add('hidden');
 
-})
+        // Atualiza a página para refletir as exclusões
+        window.location.reload();
+    
+    } catch (error) {
+        console.error('Erro ao deletar os agendamentos: ', error.message)
+        
+        throw error
+    }
+}
 
 //EVENTO DE EXIBIR MODAL DE EXCLUSÃO
-btnDeleteSelected.addEventListener('click', ()=>{
-    modalConfirmedDelete.classList.remove('hidden')
+btnModalDelete.addEventListener('click', ()=>{
+    
+    if(document.querySelectorAll('#corpo-tabela .table-checkbox:checked').length===0){
+        modalExclusionEmpty.classList.remove('hidden')
+    }else{
+        modalConfirmedDelete.classList.remove('hidden')
+    }
 })
 
-//EVENTO DE CANCELAR EXCLUSÃO
+btnDeleteConfirmed.addEventListener('click', async () => {
+    try {
+        await deleteScheduling();
+    } catch (error) {
+        console.error('Não foi possícel confirmar a exclusão. ', error.message)
+    }
+})
+
 btnCancelDelete.addEventListener('click', ()=>{
     modalConfirmedDelete.classList.add('hidden')
 })
+
+btnCancelDeleteEmpty.addEventListener('click', ()=>{
+    modalExclusionEmpty.classList.add('hidden')
+})
+
+atualizarContagem()
