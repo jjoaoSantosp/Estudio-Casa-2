@@ -172,6 +172,10 @@ async function loadAgendamento() {
         
         const tableBody = document.querySelector('#corpo-tabela')
         tableBody.innerHTML = ''
+
+        // CORREÇÃO: a variável emptyTable existia, mas nunca era usada.
+        // Mostra a mensagem de tabela vazia só quando não há agendamentos.
+        emptyTable.classList.toggle('hidden', agendamentos.length > 0)
         
         const opcoes = {
             month: 'numeric', 

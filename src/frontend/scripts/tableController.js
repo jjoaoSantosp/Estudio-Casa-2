@@ -124,16 +124,6 @@ const btnCancelDeleteEmpty = document.getElementById('btn-confirmar-exclusao-emp
 const countSelected = document.querySelector('.count-select')
 const checkboxSelectedAll = document.getElementById('checkbox-selecionar-todos')
 
-
-console.log({
-  countSelected,
-  checkboxSelectedAll,
-  btnModalDelete,
-  modalConfirmedDelete,
-  modalExclusionEmpty
-});
-
-
 //ATUALIZAR CONTAGEM
 function atualizarContagem() {
     
