@@ -19,7 +19,7 @@ document.getElementById('corpo-tabela').addEventListener('click', async(event)=>
         console.log('Agendamento clicado: ',idAgendamento)
     
 
-        const responseDetails = await fetch(`http://localhost:3000/agendamento/${idAgendamento}`)
+        const responseDetails = await fetch(`/agendamento/${idAgendamento}`)
     
         if(!responseDetails.ok){
             throw new Error("Erro ao mostrar os detalhes do Agendamento")
@@ -183,7 +183,7 @@ async function deleteScheduling() {
         const schedulingSelected = Array.from(document.querySelectorAll('.table-checkbox:checked')).
         map(checkbox => checkbox.value)
      
-        const responseSchedulingDelete = await fetch('http://localhost:3000/agendamento', {
+        const responseSchedulingDelete = await fetch('/agendamento', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

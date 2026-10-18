@@ -120,7 +120,7 @@ formAgendamento.addEventListener('submit', async(event) =>{
             valor: valorEnsaio
         }
 
-        const response = await fetch('http://localhost:3000/agendamento', {
+        const response = await fetch('/agendamento', {
             method: 'POST',
 
             headers: {
@@ -155,12 +155,16 @@ formAgendamento.addEventListener('submit', async(event) =>{
 async function loadAgendamento() {
     try {
 
-        const response = await fetch('http://localhost:3000/agendamento')
+        const response = await fetch('/agendamento')
         
-        if(!response.ok){
-            throw new Error("Erro ao buscar os agendamentos")
+        console.log('URL solicitada:', response.url);
+        console.log('Status HTTP:', response.status);
+
+        if (!response.ok) {
+            const detalhes = await response.text();
+            console.error('Resposta do servidor:', detalhes);
+            throw new Error(`Erro HTTP ${response.status}`);
         }
-        
         console.log(response)
         
         console.log(response.ok)
