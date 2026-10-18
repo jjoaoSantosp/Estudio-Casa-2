@@ -1,17 +1,6 @@
-import 'dotenv/config'
-import express from 'express'
-import cors from 'cors'
-import { prisma } from './src/backend/db.js'
-import userRouterAgendamento from './src/backend/routers/agendamentoRouter.js'
+import app from './src/backend/app.js'
 
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-
-app.use(userRouterAgendamento)
-
-app.listen(3000, () => {
+app.listen(3000, '127.0.0.1',() => {
     console.log("Servidor rodando! <3")
-    
+    console.log("Servidor rodando em http://127.0.0.1:3000")
 })
