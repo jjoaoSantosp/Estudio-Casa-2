@@ -2,7 +2,7 @@
   "name": "casa-2-studio",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "electron/main.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -12,30 +12,38 @@
   "build": {
     "appId": "com.casa2studio.agenda",
     "productName": "Agenda Casa 2 Studio",
-    "directories": { "output": "dist", "buildResources": "build" },
+    "directories": {
+      "output": "release2",
+      "buildResources": "build"
+    },
     "files": [
       "electron/**/*",
       "server.js",
       "package.json",
       "src/backend/**/*",
-      "src/frontend/**/*"
+      "src/frontend/**/*",
+      "node_modules/.prisma/**/*"
     ],
     "asarUnpack": [
-      "node_modules/.prisma/**/*",
-      "node_modules/@prisma/engines/**/*"
+      "node_modules/@prisma/client/**/*",
+      "node_modules/.prisma/**/*"
     ],
     "extraResources": [
-      { "from": "build-resources/studio.template.db", "to":
-      "studio.template.db" }
+      {
+        "from": "build-resources/studio.template.db",
+        "to": "studio.template.db"
+      }
     ],
-    "win": { "target": "nsis", "icon": "build/icon.ico" },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
     "nsis": {
       "oneClick": true,
       "perMachine": false,
       "createDesktopShortcut": true,
       "shortcutName": "Agenda Casa 2 Studio"
     }
-
   },
   "keywords": [],
   "author": "",
@@ -49,8 +57,6 @@
     "prisma": "^6.19.3"
   },
   "devDependencies": {
-    "electron": "^44.9.0",
-    "electron-builder": "^26.15.3",
     "nodemon": "^3.1.14"
   }
 }
