@@ -9,6 +9,7 @@ node_modules
 
 # Generated files
 generated/
+perfil_chrome/
 
 # Databases
 *.db
